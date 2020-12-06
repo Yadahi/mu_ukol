@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Karaoke transformator</title>
+</head>
+<body>
+    <div class='header'>
+        <h1>Karaoke tranformátor</h1>
+    </div>
+
+    <div class='assignment'>
+        <p>Vytvořit stránku, která obsahuje textový vstup pro více řádků, vstup pro zadání přirozeného čísla **k** a tlačítko k zahájení transformace vstupu.
+            Oba atributy jsou povinné. Po stisknutí tlačítka se uživateli do výstupního pole vloží text, který bude na prvních **k** pozicích obsahovat
+            transformované číslice na jejich textové varianty. Vstup bude zachován, aby mohl uživatel pokračovat v úpravách.</p>
+    </div>
+
+    <div class='wrapper'>
+        <div class='text_area' id='text_area_id'>
+            <p>Text</p>
+            <textarea id='textarea_id' style='width: 95%' placeholder='Vložit text'></textarea>
+        </div>
+
+        <div class='number' id='number_id'>
+            <p>Číslo</p>
+            <input type='number' id='input_a' placeholder='Kladne číslo' style="width: 95%" min='0' oninput='validity.valid||(value="");'>
+            <button class='get_result'>Potvrdit</button>
+        </div>
+
+        <div class='result' id='result'>
+            <p>Výsledek</p>
+        </div>
+    </div>
+
+ <script>
+    $(document).ready(function(){
+      $('.wrapper').on('click', '.get_result', function(){
+         var val1 = $('#textarea_id').val();
+         var val2 = $('#input_a').val();
+
+         $.ajax({
+          url: '/calculate_result',
+          type: 'get',
+          data: {val1: val1, val2:val2},
+          success: function(response) {
+            $('.result').html('<p>Výsledek</p><p>'+response.result+'</p>');
+          },
+         });
+      });
+    });
+ </script>
+</body>
+
+</html>
